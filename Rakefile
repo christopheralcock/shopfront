@@ -1,5 +1,6 @@
 require 'data_mapper'
-require './app/data_mapper_setup'
+require 'dm-postgres-adapter'
+require_relative './app/models/product'
 
 task :set_product_numbers_to_task_specifications do
   Product.create(name: 'Almond Toe Court Shoes, Patent Black', category: 'Women\'s Footwear', price: 9900, stockroom_count: 5, basket_count: 0)
