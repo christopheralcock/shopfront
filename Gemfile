@@ -8,4 +8,6 @@ gem 'dm-postgres-adapter'
 
 group :test do
   gem 'rspec'
+  gem 'capybara'
+  gem 'rspec/capybara'
 end
