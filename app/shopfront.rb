@@ -1,6 +1,9 @@
-require 'sinatra'
+require 'sinatra/base'
+require_relative 'models/product'
 
-get '/' do
-  @name = %w(Amigo Oscar Viking).sample
-  erb :index
+class Shopfront < Sinatra::Base
+  get '/' do
+    @products = Product.all
+    erb :'index'
+  end
 end

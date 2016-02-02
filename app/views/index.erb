@@ -1,1 +1,12 @@
 
+<h1> Products </h1>
+
+<ul id='products'>
+  <% @products.each do |product| %>
+    <li>
+      Product: <%= product.name %>
+      Price: £<%= in_pounds(product.price) %>
+      Category:   <%= product.category %>
+    </li>
+  <% end %>
+</ul>
