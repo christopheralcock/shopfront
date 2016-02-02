@@ -3,6 +3,7 @@ require 'dm-postgres-adapter'
 require_relative './app/models/product'
 
 task :set_product_numbers_to_task_specifications do
+  Product.all.destroy
   Product.create(name: 'Almond Toe Court Shoes, Patent Black', category: 'Women\'s Footwear', price: 9900, stockroom_count: 5, basket_count: 0)
   Product.create(name: 'Suede Shoes, Blue', category: 'Women\'s Footwear', price: 4200, stockroom_count: 4, basket_count: 0)
   Product.create(name: 'Leather Driver Saddle Loafers, Tan', category: 'Men\'s Footwear', price: 3400, stockroom_count: 12, basket_count: 0)
