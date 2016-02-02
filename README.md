@@ -1,13 +1,12 @@
-First version of my README for this project
+Hello!
+
+Welcome to the store.
+
+To get this up and running, ensure you have Ruby and Postgres.
+
+Set up a database called Storefront_development (?????????)
+
+and run the rake "reset_products"
 
 
-
-
-plan of attack:
-
-set up database
-wrote funtion to reset the database to the state given in the test
-
-bdd
-get site to display all of the database on the page (basically bookmark manager)
 give items buy buttons that move them to shopping basket, a second channel
