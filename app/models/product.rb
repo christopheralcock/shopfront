@@ -1,6 +1,6 @@
 require 'data_mapper'
 require 'dm-postgres-adapter'
-require 'active_support/number_helper'
+# require 'activesupport/number_helper'
 
 class Product
 
@@ -13,9 +13,9 @@ class Product
   property :stockroom,  Integer
   property :basket,     Integer
 
-  def in_pounds(pennies)
-    number_to_currency(pennies/100, precision: 2)
-  end
+  # def in_pounds(pennies)
+  #   number_to_currency(pennies/100, precision: 2)
+  # end
 
 end
 
