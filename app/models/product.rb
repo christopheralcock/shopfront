@@ -13,7 +13,6 @@ class Product
   property :previous_price,   Integer
   property :price,            Integer
   property :stockroom_count,  Integer
-  property :basket_count,     Integer
 
   def formatted_price
     pounds = "%.2f" % (price.to_f / 100)

@@ -1,7 +1,7 @@
 require_relative "../app/models/product.rb"
 
-product = Product.new(price: 9900, previous_price: 10000, basket_count: 10)
-product_2 = Product.new(price: 9900, previous_price: nil, basket_count: 5)
+product = Product.new(price: 9900, previous_price: 10000)
+product_2 = Product.new(price: 9900, previous_price: nil)
 
 describe Product do
 
