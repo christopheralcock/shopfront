@@ -7,7 +7,6 @@ require_relative 'models/product'
 class Shopfront < Sinatra::Base
   helpers Sinatra::Cookies
 
-
   get '/' do
     @products = Product.all
     cookies[:basket] ? @basket_count = JSON.parse(URI.decode(cookies[:basket])).count : @basket_count = 0
@@ -27,21 +26,22 @@ class Shopfront < Sinatra::Base
 
   post '/discard' do
     basket = JSON.parse(URI.decode(cookies[:basket]))
-    p basket
     basket.delete_at(basket.index(params[:product_id]) || basket.length)
-    p basket
     cookies[:basket] = JSON.dump(basket)
-
     redirect '/basket'
   end
-
-
-
 
   get '/basket' do
     # cookies[:basket] ? @basket_contents = JSON.parse(URI.decode(cookies[:basket])) : @basket_contents = []
     @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
     @products = Product.all
+    @total_cost = 0
+    @basket_contents.each do |item|
+      product = Product.get(item)
+      @total_cost += product.price
+      @total_cost = "%.2f" % (@total_cost.to_f / 100)
+
+    end
     erb :'basket'
   end
 

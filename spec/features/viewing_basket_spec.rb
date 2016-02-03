@@ -23,6 +23,7 @@ RSpec.feature 'Viewing basket' do
     click_link 'View your basket'
     expect(page.status_code).to eq 200
     expect(page).to have_content("1 Item(s) In Basket")
+    expect(page).to have_content("Total: £99")
     click_on 'discard'
     expect(page).to have_content("0 Item(s) In Basket")
   end
