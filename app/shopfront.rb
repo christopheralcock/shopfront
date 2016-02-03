@@ -9,6 +9,7 @@ class Shopfront < Sinatra::Base
   end
 
   post '/buy' do
+    
     redirect '/'
   end
 

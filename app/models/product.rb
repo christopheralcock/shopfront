@@ -22,11 +22,8 @@ class Product
 
   def formatted_previous_price
       pounds = "%.2f" % (previous_price.to_f / 100)
-      if pounds != "0.00"
-        "£#{pounds}"
-      end
+      pounds != "0.00" ? "£#{pounds}" : nil
   end
-
 
 end
 
