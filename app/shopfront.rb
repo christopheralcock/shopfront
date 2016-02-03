@@ -17,17 +17,26 @@ class Shopfront < Sinatra::Base
   post '/buy' do
     cookies[:basket] ||= JSON.dump([])
     # cookies[:basket] = JSON.dump([])
-
     basket = JSON.parse(URI.decode(cookies[:basket]))
     basket << params[:product_id]
     cookies[:basket] = JSON.dump(basket)
-
-    p JSON.parse(URI.decode(cookies[:basket]))
-
     product = Product.get(params[:product_id])
     product.update(stockroom_count: product.stockroom_count - 1)
     redirect '/'
   end
+
+  post '/discard' do
+    basket = JSON.parse(URI.decode(cookies[:basket]))
+    p basket
+    basket.delete_at(basket.index(params[:product_id]) || basket.length)
+    p basket
+    cookies[:basket] = JSON.dump(basket)
+
+    redirect '/basket'
+  end
+
+
+
 
   get '/basket' do
     # cookies[:basket] ? @basket_contents = JSON.parse(URI.decode(cookies[:basket])) : @basket_contents = []
