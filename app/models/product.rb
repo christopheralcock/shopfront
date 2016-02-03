@@ -20,6 +20,14 @@ class Product
     "£#{pounds}"
   end
 
+  def formatted_previous_price
+      pounds = "%.2f" % (previous_price.to_f / 100)
+      if pounds != "0.00"
+        "£#{pounds}"
+      end
+  end
+
+
 end
 
 DataMapper.setup(:default, "postgres://localhost/shopfront")

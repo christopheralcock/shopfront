@@ -5,13 +5,13 @@
   <% @products.each do |product| %>
     <li>
       <p> Product: <%= product.name %> (<%= product.colour %>)</p>
-      <p> Price: <%= product.formatted_price %> </p>
-      <p> Category:   "<%= product.gender %>" <%= product.category %> </p>
+      <p> Price: <s><%= product.formatted_previous_price %></s> <%= product.formatted_price %> </p>
+      <p> Category: <%= product.gender %> <%= product.category %> </p>
       <p>
         <form action="/buy" method="post">
           <input type="submit" value="BUY">
         </form>
-    </p>
+      </p>
     </li>
   <% end %>
 </ul>
