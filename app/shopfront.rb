@@ -9,11 +9,9 @@ class Shopfront < Sinatra::Base
   end
 
   post '/buy' do
-    p params[:product_id]
-    @basket = Product.get(params[:product_id]).basket_count
-    p @basket
-    Product.get(params[:product_id]).update(basket_count: @basket + 1)
-    p Product.get(params[:product_id]).basket_count
+    product = Product.get(params[:product_id])
+    product.update(basket_count: product.basket_count + 1)
+    product.update(stockroom_count: product.stockroom_count - 1)
     redirect '/'
   end
 

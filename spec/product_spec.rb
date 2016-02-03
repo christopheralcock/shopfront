@@ -3,14 +3,9 @@ require_relative "../app/models/product.rb"
 product = Product.new(price: 9900, previous_price: 10000, basket_count: 10)
 product_2 = Product.new(price: 9900, previous_price: nil, basket_count: 5)
 
-
-# let(:product) { double('product', price: 9900) }
-
-
 describe Product do
 
   it "can present the current price in pennies as pounds" do
-    # product.price = 9900
     expect(product.formatted_price).to eq("£99.00")
   end
 
