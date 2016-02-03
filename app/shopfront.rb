@@ -30,7 +30,10 @@ class Shopfront < Sinatra::Base
   end
 
   get '/basket' do
-
+    # cookies[:basket] ? @basket_contents = JSON.parse(URI.decode(cookies[:basket])) : @basket_contents = []
+    @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
+    @products = Product.all
+    erb :'basket'
   end
 
 

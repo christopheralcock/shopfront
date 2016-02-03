@@ -9,7 +9,7 @@ RSpec.feature 'Viewing basket' do
     visit '/'
     click_link 'View your basket'
     expect(page.status_code).to eq 200
-    within 'ul#products' do
+    within 'ul#basket_contents' do
       expect(page).to have_content('£99.00')
     end
   end

@@ -1,0 +1,17 @@
+<h1> Basket </h1>
+
+<ul id='basket_contents'>
+  <% @basket_contents.each do |product| %>
+    <% @product = Product.get(product.to_i) %>
+    <li>
+      <p> Product: <%= @product.name %> (<%= @product.colour %>)</p>
+      <p> Price: <s><%= @product.formatted_previous_price %></s> <%= @product.formatted_price %> </p>
+      <p> Category: <%= @product.gender %> <%= @product.category %> </p>
+      <p>
+        <form action="/discard" method="POST">
+          <button type="submit"  name="product_id" value="<%= @product.id %>">discard</button>
+        </form>
+      </p>
+    </li>
+  <% end %>
+</ul>
