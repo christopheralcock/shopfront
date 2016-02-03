@@ -7,14 +7,17 @@ class Product
 
   property :id,               Serial
   property :name,             String
+  property :colour,           String
+  property :gender,           String
   property :category,         String
   property :previous_price,   Integer
   property :price,            Integer
   property :stockroom_count,  Integer
   property :basket_count,     Integer
 
-  def as_pounds(pennies)
-    pennies/100
+  def formatted_price
+    pounds = "%.2f" % (price.to_f / 100)
+    "£#{pounds}"
   end
 
 end
