@@ -1,6 +1,7 @@
 <h1> Basket </h1>
 
 <ul id='basket_contents'>
+  <h2> <%= @basket_contents.length %> Item(s) In Basket</h2>
   <% @basket_contents.each do |product| %>
     <% @product = Product.get(product.to_i) %>
     <li>
