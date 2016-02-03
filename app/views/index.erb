@@ -1,4 +1,3 @@
-<%= p params%>
 <section id="basket_counter">
   <%= @products.sum(:basket_count) %> item(s) in basket
 </section>
@@ -13,7 +12,7 @@
       <p> Category: <%= product.gender %> <%= product.category %> </p>
       <p>
         <form action="/buy" method="POST">
-          <input type="submit" name="<%=product.name%>" value="BUY">
+          <button type="submit"  name="product_id" value="<%= product.id %>">BUY</button>
         </form>
       </p>
     </li>
