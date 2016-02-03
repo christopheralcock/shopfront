@@ -1,6 +1,5 @@
 require 'data_mapper'
 require 'dm-postgres-adapter'
-# require 'activesupport/number_helper'
 
 class Product
 
@@ -14,12 +13,12 @@ class Product
   property :stockroom_count,  Integer
   property :basket_count,     Integer
 
-  # def in_pounds(pennies)
-  #   number_to_currency(pennies/100, precision: 2)
-  # end
+  def as_pounds(pennies)
+    pennies/100
+  end
 
 end
 
-DataMapper.setup(:default, "postgres://localhost/shopfront_test")
+DataMapper.setup(:default, "postgres://localhost/shopfront")
 DataMapper.finalize
 DataMapper.auto_upgrade!

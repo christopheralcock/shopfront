@@ -1,6 +1,6 @@
 require 'data_mapper'
 
-env = ENV['RACK_ENV'] || 'development'
+env = ENV['RACK_ENV'] || 'test'
 
 DataMapper.setup(:default, "postgres://localhost/shopfront_#{env}")
 

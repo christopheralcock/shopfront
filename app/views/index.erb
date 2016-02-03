@@ -5,7 +5,7 @@
   <% @products.each do |product| %>
     <li>
       <p> Product: <%= product.name %> </p>
-      <p> Price: £99.00 </p>
+      <p> Price: £<%= product.price.to_s[0...-2] %>.<%= product.price.to_s[-2..-1] %> </p>
       <p> Category:   <%= product.category %> </p>
     </li>
   <% end %>
