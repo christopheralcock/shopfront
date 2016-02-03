@@ -38,10 +38,9 @@ class Shopfront < Sinatra::Base
     @total_cost = 0
     @basket_contents.each do |item|
       product = Product.get(item)
-      @total_cost += product.price
-      @total_cost = "%.2f" % (@total_cost.to_f / 100)
-
+      @total_cost += product.price.to_i
     end
+    @total_cost = "%.2f" % (@total_cost.to_f / 100)
     erb :'basket'
   end
 

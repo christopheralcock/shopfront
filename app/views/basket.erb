@@ -2,7 +2,11 @@
 
 <ul id='basket_contents'>
   <h2> <%= @basket_contents.length %> Item(s) In Basket</h2>
-  Total: £<%= @total_cost %>
+
+  <% if @total_cost != "0.00" %>
+    Total: £<%= @total_cost %>
+  <% end %>
+  
   <% @basket_contents.each do |product| %>
     <% @product = Product.get(product.to_i) %>
     <li>
