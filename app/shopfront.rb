@@ -37,11 +37,20 @@ class Shopfront < Sinatra::Base
     @total_cost = sum_basket(@basket_contents)
     cookies[:voucher] == "LADYGODIVA" ? @total_cost -= 500 : nil
     cookies[:voucher] == "AYRTONSENNA" && @total_cost > 5000 ? @total_cost -= 1000 : nil
+    cookies[:voucher] == "COMMODORE" && @total_cost > 7500 && has_shoes?(@basket_contents) ? @total_cost -= 1500 : nil
     @total_cost = format_pounds(@total_cost)
     erb :'basket'
   end
 
   helpers do
+
+    def has_shoes?(basket)
+      shoe_items = 0
+      basket.each do |item|
+        Product.get(item.to_i).category == "Footwear" ? shoe_items += 1 : nil
+      end
+      shoe_items > 0
+    end
 
     def sum_basket(basket)
       total_cost = 0
