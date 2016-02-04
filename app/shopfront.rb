@@ -4,19 +4,16 @@ require 'JSON'
 require 'URI'
 require_relative 'models/product'
 
-
 class Shopfront < Sinatra::Base
   ENV["RACK_ENV"] ||= "development"
 
   helpers Sinatra::Cookies
-
 
   get '/' do
     @products = Product.all
     @basket_count = cookies[:basket] ? JSON.parse(URI.decode(cookies[:basket])).count : 0
     erb :'index'
   end
-
 
   get '/cookies' do
     cookies[:basket] = JSON.dump([])
@@ -50,7 +47,6 @@ class Shopfront < Sinatra::Base
     cookies[:voucher] = ""
     erb :'basket'
   end
-
 
   helpers do
 
@@ -130,7 +126,5 @@ class Shopfront < Sinatra::Base
         product.update(stockroom_count: product.stockroom_count + amount)
       end
     end
-
   end
-
 end
