@@ -32,7 +32,6 @@ class Shopfront < Sinatra::Base
 
   post '/voucher' do
     cookies[:voucher] = params[:voucher]
-    p cookies
     redirect '/basket'
   end
 
@@ -41,23 +40,35 @@ class Shopfront < Sinatra::Base
     @products = Product.all
     @total_cost = sum_basket(@basket_contents)
     original_cost = @total_cost
-    voucher = cookies[:voucher]
-    p "value i'm passing around #{voucher}"
-    five_pounds_off?(voucher) ? @total_cost -= 500 : nil
-    ten_pounds_off?(voucher, @total_cost) ? @total_cost -= 1000 : nil
-    fifteen_pounds_off?(voucher, @total_cost, @basket_contents) ? @total_cost -= 1500 : nil
-    original_cost == @total_cost && exists?(voucher) ? @error_message = "Voucher not valid" : nil
+    @total_cost = apply_vouchers(@total_cost, @basket_contents, cookies[:voucher])
+    voucher_valid?(original_cost, @total_cost, cookies[:voucher])
     @total_cost = format_pounds(@total_cost)
-    # invalid_voucher?(voucher) ? @error_message = "Voucher not valid" : nil
     cookies[:voucher] = ""
     erb :'basket'
   end
 
+
+
+
+
+
   helpers do
-    #
-    # def invalid_voucher?(voucher)
-    #   ["LADYGODIVA", "AYRTONSENNA", "COMMODORE", ""].include?(voucher) ? false : true
-    # end
+
+    def voucher_valid?(original_cost, total_cost, voucher)
+      if original_cost == @total_cost && exists?(voucher)
+        @error_message = "Voucher not valid"
+      else
+        @error_message = nil
+      end
+    end
+
+    def apply_vouchers(total_cost, items, voucher)
+      five_pounds_off?(voucher) ? total_cost -= 500 : nil
+      ten_pounds_off?(voucher, total_cost) ? total_cost -= 1000 : nil
+      fifteen_pounds_off?(voucher, total_cost, items) ? total_cost -= 1500 : nil
+      total_cost
+    end
+
 
     def exists?(voucher)
       voucher && voucher != ""
