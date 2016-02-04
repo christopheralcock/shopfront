@@ -3,7 +3,6 @@ require 'sinatra/cookies'
 require 'JSON'
 require 'URI'
 require_relative 'models/product'
-require_relative './helper/voucher'
 
 class Shopfront < Sinatra::Base
   helpers Sinatra::Cookies
@@ -16,12 +15,7 @@ class Shopfront < Sinatra::Base
 
   post '/buy' do
     cookies[:basket] ||= JSON.dump([])
-    # cookies[:basket] = JSON.dump([])
-    basket = JSON.parse(URI.decode(cookies[:basket]))
-    basket << params[:product_id]
-    cookies[:basket] = JSON.dump(basket)
-    product = Product.get(params[:product_id])
-    product.update(stockroom_count: product.stockroom_count - 1)
+    cookies[:basket] = add_to_basket(cookies[:basket], params[:product_id])
     redirect '/'
   end
 
@@ -33,19 +27,32 @@ class Shopfront < Sinatra::Base
   end
 
   get '/basket' do
-    # cookies[:basket] ? @basket_contents = JSON.parse(URI.decode(cookies[:basket])) : @basket_contents = []
     @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
     @products = Product.all
-    sum_basket(@basket_contents)
-    # @total_cost = 0
-    # @basket_contents.each do |item|
-    #   if Product.get(item)
-    #     @total_cost += Product.get(item).price.to_i
-    #   end
-    # end
-    @total_cost = "%.2f" % (total_cost.to_f / 100)
+    @total_cost = sum_basket(@basket_contents)
     erb :'basket'
   end
 
+  def sum_basket(basket)
+    total_cost = 0
+    basket.each do |item|
+      if Product.get(item)
+        total_cost += Product.get(item).price.to_i
+      end
+    end
+    "%.2f" % (total_cost.to_f / 100)
+  end
+
+  def add_to_basket(cookie_basket, item)
+    decrease_stock(item)
+    basket = JSON.parse(URI.decode(cookie_basket))
+    basket << item
+    cookie_basket = JSON.dump(basket)
+  end
+
+  def decrease_stock(item)
+    product = Product.get(item)
+    product.update(stockroom_count: product.stockroom_count - 1)
+  end
 
 end
