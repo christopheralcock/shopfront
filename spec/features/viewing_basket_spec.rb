@@ -31,4 +31,17 @@ RSpec.feature 'Viewing basket' do
     expect(page).to have_content("BUY")
   end
 
+  scenario 'I can apply the £5 off voucher' do
+    Product.create(name: 'Almond Toe Court Shoes', colour: 'Patent Black', gender: 'Women\'s', category: 'Footwear', previous_price: 10000, price: 9900, stockroom_count: 1)
+    visit '/'
+    click_on 'BUY'
+    click_link 'View your basket'
+    expect(page).to have_content("Total: £99")
+    expect(page).to have_content("If you have a voucher code, enter it here")
+    fill_in "voucher_code", with: 'LADYGODIVA'
+    click_on 'apply voucher'
+    expect(page).to have_content("£5 Discount applied - Total: £94")
+  end
+
+
 end

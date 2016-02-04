@@ -4,7 +4,12 @@
   <h2> <%= @basket_contents.length %> Item(s) In Basket</h2>
 
   <% if @total_cost != "0.00" %>
-    Total: £<%= @total_cost %>
+    <p> Total: £<%= @total_cost %> </p>
+    <p> If you have a voucher code, enter it here: </p>
+    <form action="/voucher" method="POST">
+      <input type="text" name="voucher_code">
+      <button type="submit">apply voucher</button>
+    </form>
   <% end %>
 
   <% @basket_contents.each do |product| %>

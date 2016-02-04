@@ -27,6 +27,10 @@ class Shopfront < Sinatra::Base
     redirect '/basket'
   end
 
+  post '/voucher' do
+    redirect '/basket'
+  end
+
   get '/basket' do
     @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
     @products = Product.all
