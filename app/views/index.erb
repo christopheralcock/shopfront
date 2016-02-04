@@ -1,15 +1,10 @@
-<header>
-  <h1>
-    Shop-Shop-a-Shop
-  </h1>
-  <section id="basket-counter">
-    <%= @basket_count %> item(s) in basket
-    <% if @basket_count > 0 %>
-    <a href="/basket">View your basket</a>
-    <% end %>
-  </section>
-</header>
 
+<section id="basket-counter">
+  <%= @basket_count %> item(s) in basket
+  <% if @basket_count > 0 %>
+  <a href="/basket">View your basket</a>
+  <% end %>
+</section>
 
 
 <section id="page-title">
@@ -18,8 +13,9 @@
 
 <section id="gender-filter">
   <form action="/filter" method="POST">
-    <button type="submit" name="gender" value="M">MEN'S</button>
+    Show me
     <button type="submit" name="gender" value="W">WOMEN'S</button>
+    <button type="submit" name="gender" value="M">MEN'S</button>
     <button type="submit" name="gender" value="B">BOTH</button>
   </form>
 </sections>

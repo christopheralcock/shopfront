@@ -1,64 +1,58 @@
-<header>
-  <h1>
-    Shop-Shop-a-Shop
-  </h1>
+<main>
   <section id="navigate-back">
     <a href="/">Return to shop</a>
   </section>
-</header>
-
-
-<section id="page-title">
-  Basket
-</section>
-
-
-
-<section id="order">
-  <section id="payment">
-    <h2>
-      <%= @basket_contents.length %> Item(s) In Basket
-    </h2>
-    <% if @total_cost != "0.00" %>
-      <p> Total: £<%= @total_cost %> </p>
-      <%= @error_message %>
-      <% if @voucher_used %>
-        <p> Voucher successfully applied.  Refresh page if you'd like to apply a different one </p>
-      <% else %>
-        <p> If you have a voucher code, enter it here: </p>
-        <form action="/voucher" method="POST">
-          <input type="text" name="voucher">
-          <button type="submit">apply voucher</button>
-        </form>
-      <% end %>
-    <% end %>
+  <section id="page-title">
+    Basket
   </section>
 
-  <section id="order-details">
-    <ul id="basket-contents">
-      <% @basket_contents.each do |product| %>
-        <% if Product.get(product.to_i) %>
-          <% @product = Product.get(product.to_i) %>
-          <li>
-            <p> Product: <%= @product.name %> (<%= @product.colour %>)</p>
-            <p> Price: <s><%= @product.formatted_previous_price %></s> <%= @product.formatted_price %> </p>
-            <p> Category: <%= @product.gender %> <%= @product.category %> </p>
-            <div id="picture">
-              <img src="images/<%= @product.image_location %>.jpg" alt="<%= @product.name %> (<%= @product.colour %>)">
-            </div>
-            <p>
-              <form action="/discard" method="POST">
-                <button type="submit"  name="product_id" value="<%= product %>">discard</button>
-              </form>
-            </p>
-          </li>
+
+  <section id="order">
+    <section id="payment">
+      <h2>
+        <%= @basket_contents.length %> Item(s) In Basket
+      </h2>
+      <% if @total_cost != "0.00" %>
+        <p> Total: £<%= @total_cost %> </p>
+        <%= @error_message %>
+        <% if @voucher_used %>
+          <p> Voucher successfully applied.  Refresh page if you'd like to apply a different one </p>
         <% else %>
-          <h3>Item not found</h3>
-          <form action="/discard" method="POST">
-            <button type="submit"  name="product_id" value="<%= product %>">discard</button>
+          <p> If you have a voucher code, enter it here: </p>
+          <form action="/voucher" method="POST">
+            <input type="text" name="voucher">
+            <button type="submit">apply voucher</button>
           </form>
         <% end %>
       <% end %>
-    </ul>
+    </section>
+
+    <section id="order-details">
+      <ul id="basket-contents">
+        <% @basket_contents.each do |product| %>
+          <% if Product.get(product.to_i) %>
+            <% @product = Product.get(product.to_i) %>
+            <li>
+              <p> Product: <%= @product.name %> (<%= @product.colour %>)</p>
+              <p> Price: <s><%= @product.formatted_previous_price %></s> <%= @product.formatted_price %> </p>
+              <p> Category: <%= @product.gender %> <%= @product.category %> </p>
+              <div id="picture">
+                <img src="images/<%= @product.image_location %>.jpg" alt="<%= @product.name %> (<%= @product.colour %>)">
+              </div>
+              <p>
+                <form action="/discard" method="POST">
+                  <button type="submit"  name="product_id" value="<%= product %>">discard</button>
+                </form>
+              </p>
+            </li>
+          <% else %>
+            <h3>Item not found</h3>
+            <form action="/discard" method="POST">
+              <button type="submit"  name="product_id" value="<%= product %>">discard</button>
+            </form>
+          <% end %>
+        <% end %>
+      </ul>
+    </section>
   </section>
-</section>
+</main>
