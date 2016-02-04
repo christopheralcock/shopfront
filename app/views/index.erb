@@ -14,9 +14,13 @@
       <p> Price: <s><%= product.formatted_previous_price %></s> <%= product.formatted_price %> </p>
       <p> Category: <%= product.gender %> <%= product.category %> </p>
       <p>
-        <form action="/buy" method="POST">
-          <button type="submit"  name="product_id" value="<%= product.id %>">BUY</button>
-        </form>
+        <% if product.stockroom_count > 0 %>
+          <form action="/buy" method="POST">
+            <button type="submit"  name="product_id" value="<%= product.id %>">BUY</button>
+          </form>
+        <% else %>
+          <h2>Item out of stock</h2>
+        <% end %>
       </p>
     </li>
   <% end %>
