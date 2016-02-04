@@ -41,24 +41,23 @@ class Shopfront < Sinatra::Base
     @total_cost = sum_basket(@basket_contents)
     original_cost = @total_cost
     @total_cost = apply_vouchers(@total_cost, @basket_contents, cookies[:voucher])
-    voucher_valid?(original_cost, @total_cost, cookies[:voucher])
+    voucher_effective?(original_cost, @total_cost, cookies[:voucher])
     @total_cost = format_pounds(@total_cost)
     cookies[:voucher] = ""
     erb :'basket'
   end
 
 
-
-
-
-
   helpers do
 
-    def voucher_valid?(original_cost, total_cost, voucher)
+    def voucher_effective?(original_cost, total_cost, voucher)
       if original_cost == @total_cost && exists?(voucher)
         @error_message = "Voucher not valid"
       else
         @error_message = nil
+      end
+      if original_cost != @total_cost
+        @voucher_used = true
       end
     end
 
@@ -68,7 +67,6 @@ class Shopfront < Sinatra::Base
       fifteen_pounds_off?(voucher, total_cost, items) ? total_cost -= 1500 : nil
       total_cost
     end
-
 
     def exists?(voucher)
       voucher && voucher != ""
@@ -107,7 +105,6 @@ class Shopfront < Sinatra::Base
     def format_pounds(total_cost)
       "%.2f" % (total_cost.to_f / 100)
     end
-
 
     def add_to_basket(cookie_basket, item)
       change_stock(item, -1)

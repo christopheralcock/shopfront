@@ -41,9 +41,7 @@ RSpec.feature 'Viewing basket' do
     fill_in "voucher", with: 'LADYGODIVA'
     click_on 'apply voucher'
     expect(page).to have_content("Total: £94")
-    fill_in "voucher", with: 'LADYGODIVA'
-    click_on 'apply voucher'
-    expect(page).to have_content("Total: £94")
+    expect(page).to have_content("Voucher successfully applied")
   end
 
   scenario 'I can apply the £10 off voucher' do

@@ -6,11 +6,15 @@
   <% if @total_cost != "0.00" %>
     <p> Total: £<%= @total_cost %> </p>
     <%= @error_message %>
-    <p> If you have a voucher code, enter it here: </p>
-    <form action="/voucher" method="POST">
-      <input type="text" name="voucher">
-      <button type="submit">apply voucher</button>
-    </form>
+    <% if @voucher_used %>
+      <p> Voucher successfully applied.  Refresh page if you'd like to apply a different one </p>
+    <% else %>
+      <p> If you have a voucher code, enter it here: </p>
+      <form action="/voucher" method="POST">
+        <input type="text" name="voucher">
+        <button type="submit">apply voucher</button>
+      </form>
+    <% end %>
   <% end %>
 
   <% @basket_contents.each do |product| %>
