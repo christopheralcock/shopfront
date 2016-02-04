@@ -25,3 +25,12 @@ ctrl+c to exit rackup
 `rackup` to get the server running
 
 then navigate to <a href="http://localhost:9292/">here</a>
+
+The structure of the site is standard MVC - the product model is here: https://github.com/christopheralcock/shopfront/blob/master/app/models/product.rb
+The shopping basket is held in cookies.
+
+The views are here:
+https://github.com/christopheralcock/shopfront/tree/master/app/views
+
+And the controller and its helper methods are here:
+https://github.com/christopheralcock/shopfront/blob/master/app/shopfront.rb
