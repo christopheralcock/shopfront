@@ -20,6 +20,7 @@ class Shopfront < Sinatra::Base
   end
 
   post '/discard' do
+    change_stock(params[:product_id], 1)
     basket = JSON.parse(URI.decode(cookies[:basket]))
     basket.delete_at(basket.index(params[:product_id]) || basket.length)
     cookies[:basket] = JSON.dump(basket)
