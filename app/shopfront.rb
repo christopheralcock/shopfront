@@ -34,14 +34,20 @@ class Shopfront < Sinatra::Base
     @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
     @products = Product.all
     @total_cost = sum_basket(@basket_contents)
-    five_pounds_off?(cookies[:voucher]) ? @total_cost -= 500 : nil
-    ten_pounds_off?(cookies[:voucher], @total_cost) ? @total_cost -= 1000 : nil
-    fifteen_pounds_off?(cookies[:voucher], @total_cost, @basket_contents) ? @total_cost -= 1500 : nil
+    voucher = cookies[:voucher]
+    five_pounds_off?(voucher) ? @total_cost -= 500 : nil
+    ten_pounds_off?(voucher, @total_cost) ? @total_cost -= 1000 : nil
+    fifteen_pounds_off?(voucher, @total_cost, @basket_contents) ? @total_cost -= 1500 : nil
     @total_cost = format_pounds(@total_cost)
+    p invalid_voucher?(voucher) ? @error_message = "Voucher not valid" : nil
     erb :'basket'
   end
 
   helpers do
+
+    def invalid_voucher?(voucher)
+      voucher && %w(LADYGODIVA AYRTONSENNA COMMODORE).include?(voucher) ? false : true
+    end
 
     def five_pounds_off?(voucher)
       voucher == "LADYGODIVA"

@@ -71,4 +71,17 @@ RSpec.feature 'Viewing basket' do
     expect(page).to have_content("Total: £84")
   end
 
+
+  scenario 'I apply an invalid voucher' do
+    Product.create(name: 'Almond Toe Court Shoes', colour: 'Patent Black', gender: 'Women\'s', category: 'Footwear', previous_price: 10000, price: 9900, stockroom_count: 1)
+    visit '/'
+    click_on 'BUY'
+    click_link 'View your basket'
+    expect(page).to have_content("Total: £99")
+    expect(page).to have_content("If you have a voucher code, enter it here")
+    fill_in "voucher", with: 'SOMEOLDNONSENSE'
+    click_on 'apply voucher'
+    expect(page).to have_content("Voucher not valid")
+  end
+
 end
