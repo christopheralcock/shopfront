@@ -6,7 +6,6 @@ require_relative 'models/product'
 
 class Shopfront < Sinatra::Base
   helpers Sinatra::Cookies
-  # helpers ControllerHelpers
 
   get '/' do
     @products = Product.all
@@ -35,14 +34,26 @@ class Shopfront < Sinatra::Base
     @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
     @products = Product.all
     @total_cost = sum_basket(@basket_contents)
-    cookies[:voucher] == "LADYGODIVA" ? @total_cost -= 500 : nil
-    cookies[:voucher] == "AYRTONSENNA" && @total_cost > 5000 ? @total_cost -= 1000 : nil
-    cookies[:voucher] == "COMMODORE" && @total_cost > 7500 && has_shoes?(@basket_contents) ? @total_cost -= 1500 : nil
+    five_pounds_off?(cookies[:voucher]) ? @total_cost -= 500 : nil
+    ten_pounds_off?(cookies[:voucher], @total_cost) ? @total_cost -= 1000 : nil
+    fifteen_pounds_off?(cookies[:voucher], @total_cost, @basket_contents) ? @total_cost -= 1500 : nil
     @total_cost = format_pounds(@total_cost)
     erb :'basket'
   end
 
   helpers do
+
+    def five_pounds_off?(voucher)
+      voucher == "LADYGODIVA"
+    end
+
+    def ten_pounds_off?(voucher, total_cost)
+      voucher == "AYRTONSENNA" && total_cost > 5000
+    end
+
+    def fifteen_pounds_off?(voucher, total_cost, basket)
+      voucher == "COMMODORE" && total_cost > 5000 && has_shoes?(basket)
+    end
 
     def has_shoes?(basket)
       shoe_items = 0
