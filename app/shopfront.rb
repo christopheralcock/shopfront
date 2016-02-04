@@ -13,6 +13,12 @@ class Shopfront < Sinatra::Base
     erb :'index'
   end
 
+
+  get '/cookies' do
+    cookies[:basket] = JSON.dump([])
+    "you've just cleared your cookies"
+  end
+
   post '/buy' do
     cookies[:basket] ||= JSON.dump([])
     cookies[:basket] = add_to_basket(cookies[:basket], params[:product_id])
@@ -34,19 +40,27 @@ class Shopfront < Sinatra::Base
     @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
     @products = Product.all
     @total_cost = sum_basket(@basket_contents)
+    original_cost = @total_cost
     voucher = cookies[:voucher]
+    p "value i'm passing around #{voucher}"
     five_pounds_off?(voucher) ? @total_cost -= 500 : nil
     ten_pounds_off?(voucher, @total_cost) ? @total_cost -= 1000 : nil
     fifteen_pounds_off?(voucher, @total_cost, @basket_contents) ? @total_cost -= 1500 : nil
+    original_cost == @total_cost && exists?(voucher) ? @error_message = "Voucher not valid" : nil
     @total_cost = format_pounds(@total_cost)
-    p invalid_voucher?(voucher) ? @error_message = "Voucher not valid" : nil
+    # invalid_voucher?(voucher) ? @error_message = "Voucher not valid" : nil
+    cookies[:voucher] = ""
     erb :'basket'
   end
 
   helpers do
+    #
+    # def invalid_voucher?(voucher)
+    #   ["LADYGODIVA", "AYRTONSENNA", "COMMODORE", ""].include?(voucher) ? false : true
+    # end
 
-    def invalid_voucher?(voucher)
-      voucher && %w(LADYGODIVA AYRTONSENNA COMMODORE).include?(voucher) ? false : true
+    def exists?(voucher)
+      voucher && voucher != ""
     end
 
     def five_pounds_off?(voucher)
@@ -64,7 +78,7 @@ class Shopfront < Sinatra::Base
     def has_shoes?(basket)
       shoe_items = 0
       basket.each do |item|
-        Product.get(item.to_i).category == "Footwear" ? shoe_items += 1 : nil
+        Product.get(item.to_i) && Product.get(item.to_i).category == "Footwear" ? shoe_items += 1 : nil
       end
       shoe_items > 0
     end
@@ -99,8 +113,10 @@ class Shopfront < Sinatra::Base
     end
 
     def change_stock(item, amount)
-      product = Product.get(item)
-      product.update(stockroom_count: product.stockroom_count + amount)
+      if Product.get(item)
+        product = Product.get(item)
+        product.update(stockroom_count: product.stockroom_count + amount)
+      end
     end
 
   end

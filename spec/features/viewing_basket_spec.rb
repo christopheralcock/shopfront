@@ -77,6 +77,7 @@ RSpec.feature 'Viewing basket' do
     visit '/'
     click_on 'BUY'
     click_link 'View your basket'
+    expect(page).to_not have_content("Voucher not valid")
     expect(page).to have_content("Total: £99")
     expect(page).to have_content("If you have a voucher code, enter it here")
     fill_in "voucher", with: 'SOMEOLDNONSENSE'
