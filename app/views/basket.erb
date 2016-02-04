@@ -6,18 +6,25 @@
   <% if @total_cost != "0.00" %>
     Total: £<%= @total_cost %>
   <% end %>
-  
+
   <% @basket_contents.each do |product| %>
-    <% @product = Product.get(product.to_i) %>
-    <li>
-      <p> Product: <%= @product.name %> (<%= @product.colour %>)</p>
-      <p> Price: <s><%= @product.formatted_previous_price %></s> <%= @product.formatted_price %> </p>
-      <p> Category: <%= @product.gender %> <%= @product.category %> </p>
-      <p>
-        <form action="/discard" method="POST">
-          <button type="submit"  name="product_id" value="<%= @product.id %>">discard</button>
-        </form>
-      </p>
-    </li>
+    <% if Product.get(product.to_i) %>
+      <% @product = Product.get(product.to_i) %>
+      <li>
+        <p> Product: <%= @product.name %> (<%= @product.colour %>)</p>
+        <p> Price: <s><%= @product.formatted_previous_price %></s> <%= @product.formatted_price %> </p>
+        <p> Category: <%= @product.gender %> <%= @product.category %> </p>
+        <p>
+          <form action="/discard" method="POST">
+            <button type="submit"  name="product_id" value="<%= product %>">discard</button>
+          </form>
+        </p>
+      </li>
+    <% else %>
+      <h3>Item not found</h3>
+      <form action="/discard" method="POST">
+        <button type="submit"  name="product_id" value="<%= product %>">discard</button>
+      </form>
+    <% end %>
   <% end %>
 </ul>
