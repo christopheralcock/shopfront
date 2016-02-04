@@ -16,7 +16,7 @@ RSpec.feature 'Viewing products' do
     Product.create(name: 'Almond Toe Court Shoes', colour: 'Patent Black', gender: 'Women\'s', category: 'Footwear', previous_price: 10000, price: 9900, stockroom_count: 5)
     visit '/'
     click_on 'BUY'
-    within 'section#basket_counter' do
+    within 'section#basket-counter' do
       expect(page).to have_content('1 item(s)')
     end
   end
