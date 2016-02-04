@@ -9,7 +9,6 @@ RSpec.configure do |config|
   ENV["RACK_ENV"] = "test"
 
   config.include Rack::Test::Methods
-  # DataMapper::setup(:default, "postgres://localhost/shopfront_test")
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -21,7 +20,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    # DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:truncation)
   end
 
   config.before(:each) do

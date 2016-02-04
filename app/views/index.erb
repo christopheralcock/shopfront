@@ -1,13 +1,29 @@
-<section id="basket-counter">
-  <%= @basket_count %> item(s) in basket
-  <% if @basket_count > 0 %>
+<header>
+  <h1>
+    Shop-Shop-a-Shop
+  </h1>
+  <section id="basket-counter">
+    <%= @basket_count %> item(s) in basket
+    <% if @basket_count > 0 %>
     <a href="/basket">View your basket</a>
-  <% end %>
-</section>
+    <% end %>
+  </section>
+</header>
+
+
 
 <section id="page-title">
   Products
 </section>
+
+<section id="gender-filter">
+  <form action="/filter" method="POST">
+    <button type="submit" name="gender" value="M">MEN'S</button>
+    <button type="submit" name="gender" value="W">WOMEN'S</button>
+    <button type="submit" name="gender" value="B">BOTH</button>
+  </form>
+</sections>
+
 
 <section id="product-catalogue">
   <ul id='products'>
@@ -17,6 +33,9 @@
           <p> Product: <%= product.name %> (<%= product.colour %>)</p>
           <p> Price: <s><%= product.formatted_previous_price %></s> <%= product.formatted_price %> </p>
           <p> Category: <%= product.gender %> <%= product.category %> </p>
+          <div id="picture">
+            <img src="images/<%= product.image_location %>.jpg" alt="<%= product.name %> (<%= product.colour %>)">
+          </div>
           <p>
             <% if product.stockroom_count > 0 %>
               <form action="/buy" method="POST">

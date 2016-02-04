@@ -13,7 +13,6 @@ RSpec.feature 'Viewing basket' do
     end
   end
 
-
   scenario 'I click the discard button' do
     Product.create(name: 'Almond Toe Court Shoes', colour: 'Patent Black', gender: 'Women\'s', category: 'Footwear', previous_price: 10000, price: 9900, stockroom_count: 1)
     visit '/'

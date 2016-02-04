@@ -21,4 +21,13 @@ RSpec.feature 'Viewing products' do
     end
   end
 
+  scenario 'I can filter by gender' do
+    Product.create(name: 'Almond Toe Court Shoes', colour: 'Patent Black', gender: 'Women\'s', category: 'Footwear', previous_price: 10000, price: 9900, stockroom_count: 5)
+    Product.create(name: 'Almond Toe Court Shoes', colour: 'Patent Black', gender: 'Men\'s', category: 'Footwear', previous_price: 10000, price: 9900, stockroom_count: 1)
+    visit '/'
+    expect(page).to have_content('Women\'s Footwear')
+    click_on 'M'
+    expect(page).to_not have_content('Women\'s Footwear')
+  end
+
 end

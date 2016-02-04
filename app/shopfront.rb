@@ -6,13 +6,18 @@ require_relative 'models/product'
 
 class Shopfront < Sinatra::Base
   ENV["RACK_ENV"] ||= "development"
-
   helpers Sinatra::Cookies
 
   get '/' do
-    @products = Product.all
+    @products = filter(cookies[:gender])
+    # @products = Product.all
     @basket_count = cookies[:basket] ? JSON.parse(URI.decode(cookies[:basket])).count : 0
     erb :'index'
+  end
+
+  post '/filter' do
+    cookies[:gender] = params[:gender]
+    redirect '/'
   end
 
   get '/cookies' do
@@ -49,6 +54,16 @@ class Shopfront < Sinatra::Base
   end
 
   helpers do
+
+    def filter(letter)
+      if letter == "W"
+        return Product.all(gender: 'Women\'s')
+      elsif letter == "M"
+        return Product.all(gender: 'Men\'s')
+      else
+        return Product.all
+      end
+    end
 
     def voucher_effective?(original_cost, total_cost, voucher)
       if original_cost == @total_cost && exists?(voucher)
