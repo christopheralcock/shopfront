@@ -4,9 +4,11 @@ require 'JSON'
 require 'URI'
 require_relative 'models/product'
 
+
 class Shopfront < Sinatra::Base
+  ENV["RACK_ENV"] ||= "development"
+
   helpers Sinatra::Cookies
-  ENV["RACK_ENV"] ||= "_development"
 
 
   get '/' do

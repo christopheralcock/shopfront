@@ -6,10 +6,10 @@ Capybara.app = Shopfront
 
 RSpec.configure do |config|
 
-  ENV["RACK_ENV"] = "_test"
+  ENV["RACK_ENV"] = "test"
 
   config.include Rack::Test::Methods
-  DataMapper::setup(:default, "postgres://localhost/shopfront_test")
+  # DataMapper::setup(:default, "postgres://localhost/shopfront_test")
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

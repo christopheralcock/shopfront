@@ -2,6 +2,10 @@ require 'data_mapper'
 require 'dm-postgres-adapter'
 require_relative './app/models/product'
 
+
+DataMapper.setup(:default, "postgres://localhost/shopfrontdevelopment")
+
+
 task :reset_products do
   Product.all.destroy
   Product.create(name: 'Almond Toe Court Shoes',          colour:'Patent Black',  gender: 'Women\'s', category: 'Footwear',                         price: 9900,  stockroom_count: 5)

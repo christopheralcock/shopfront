@@ -10,3 +10,17 @@ and run the rake "reset_products"
 
 
 give items buy buttons that move them to shopping basket, a second channel
+
+
+
+in PSQL
+`\c database shopfront;`
+`\c database shopfrontdevelopment;`
+back in bash
+`bundle install` to install gems
+`rspec` to verify my test suite
+`rackup` to let datamapper make the table on development
+ctrl+c to exit rackup
+`rake reset_products` to fill the database with the necessary items
+`rackup` to get the server running
+then navigate to http://localhost:9292/
