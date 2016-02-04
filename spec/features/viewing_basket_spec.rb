@@ -38,9 +38,9 @@ RSpec.feature 'Viewing basket' do
     click_link 'View your basket'
     expect(page).to have_content("Total: £99")
     expect(page).to have_content("If you have a voucher code, enter it here")
-    fill_in "voucher_code", with: 'LADYGODIVA'
+    fill_in "voucher", with: 'LADYGODIVA'
     click_on 'apply voucher'
-    expect(page).to have_content("£5 Discount applied - Total: £94")
+    expect(page).to have_content("Total: £94")
   end
 
 

@@ -6,10 +6,11 @@ require_relative 'models/product'
 
 class Shopfront < Sinatra::Base
   helpers Sinatra::Cookies
+  # helpers ControllerHelpers
 
   get '/' do
     @products = Product.all
-    cookies[:basket] ? @basket_count = JSON.parse(URI.decode(cookies[:basket])).count : @basket_count = 0
+    @basket_count = cookies[:basket] ? JSON.parse(URI.decode(cookies[:basket])).count : 0
     erb :'index'
   end
 
@@ -20,14 +21,13 @@ class Shopfront < Sinatra::Base
   end
 
   post '/discard' do
-    change_stock(params[:product_id], 1)
-    basket = JSON.parse(URI.decode(cookies[:basket]))
-    basket.delete_at(basket.index(params[:product_id]) || basket.length)
-    cookies[:basket] = JSON.dump(basket)
+    cookies[:basket] = remove_from_basket(cookies[:basket], params[:product_id])
     redirect '/basket'
   end
 
   post '/voucher' do
+    cookies[:voucher] = params[:voucher]
+    p cookies
     redirect '/basket'
   end
 
@@ -35,29 +35,47 @@ class Shopfront < Sinatra::Base
     @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
     @products = Product.all
     @total_cost = sum_basket(@basket_contents)
+    cookies[:voucher] == "LADYGODIVA" ? @total_cost -= 500 : nil
+    @total_cost = format_pounds(@total_cost)
     erb :'basket'
   end
 
-  def sum_basket(basket)
-    total_cost = 0
-    basket.each do |item|
-      if Product.get(item)
-        total_cost += Product.get(item).price.to_i
+  helpers do
+
+    def sum_basket(basket)
+      total_cost = 0
+      basket.each do |item|
+        if Product.get(item)
+          total_cost += Product.get(item).price.to_i
+        end
       end
+      total_cost
     end
-    "%.2f" % (total_cost.to_f / 100)
-  end
 
-  def add_to_basket(cookie_basket, item)
-    change_stock(item, -1)
-    basket = JSON.parse(URI.decode(cookie_basket))
-    basket << item
-    cookie_basket = JSON.dump(basket)
-  end
+    def format_pounds(total_cost)
+      "%.2f" % (total_cost.to_f / 100)
+    end
 
-  def change_stock(item, amount)
-    product = Product.get(item)
-    product.update(stockroom_count: product.stockroom_count + amount)
+
+    def add_to_basket(cookie_basket, item)
+      change_stock(item, -1)
+      basket = JSON.parse(URI.decode(cookie_basket))
+      basket << item
+      cookie_basket = JSON.dump(basket)
+    end
+
+    def remove_from_basket(cookie_basket, item)
+      change_stock(item, 1)
+      basket = JSON.parse(URI.decode(cookie_basket))
+      basket.delete_at(basket.index(item) || basket.length)
+      JSON.dump(basket)
+    end
+
+    def change_stock(item, amount)
+      product = Product.get(item)
+      product.update(stockroom_count: product.stockroom_count + amount)
+    end
+
   end
 
 end
