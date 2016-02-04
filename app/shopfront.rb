@@ -44,15 +44,15 @@ class Shopfront < Sinatra::Base
   end
 
   def add_to_basket(cookie_basket, item)
-    decrease_stock(item)
+    change_stock(item, -1)
     basket = JSON.parse(URI.decode(cookie_basket))
     basket << item
     cookie_basket = JSON.dump(basket)
   end
 
-  def decrease_stock(item)
+  def change_stock(item, amount)
     product = Product.get(item)
-    product.update(stockroom_count: product.stockroom_count - 1)
+    product.update(stockroom_count: product.stockroom_count + amount)
   end
 
 end
