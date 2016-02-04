@@ -26,6 +26,6 @@ class Product
 
 end
 
-DataMapper.setup(:default, "postgres://localhost/shopfront")
+DataMapper.setup(:default, "postgres://localhost/shopfront#{ENV['RACK_ENV']}")
 DataMapper.finalize
 DataMapper.auto_upgrade!

@@ -6,6 +6,8 @@ Capybara.app = Shopfront
 
 RSpec.configure do |config|
 
+  ENV["RACK_ENV"] = "_test"
+
   config.include Rack::Test::Methods
   DataMapper::setup(:default, "postgres://localhost/shopfront_test")
 

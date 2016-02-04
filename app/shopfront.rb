@@ -6,6 +6,8 @@ require_relative 'models/product'
 
 class Shopfront < Sinatra::Base
   helpers Sinatra::Cookies
+  ENV["RACK_ENV"] ||= "_development"
+
 
   get '/' do
     @products = Product.all
