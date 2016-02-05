@@ -1,6 +1,6 @@
 <section id="stay-at-top-store">
   <section id="basket-counter">
-    <%= @basket_count %> item(s) in basket - 
+    <%= @basket_count %> item(s) in basket -
     <% if @basket_count > 0 %>
     <a href="/basket">View your basket</a>
     <% end %>
@@ -21,7 +21,7 @@
       <li>
         <section id="product">
           <p> Product: <%= product.name %> (<%= product.colour %>)</p>
-          <p> Price: <s><%= product.formatted_previous_price %></s> <%= product.formatted_price %> </p>
+          <p> <i> Price: <s><%= product.formatted_previous_price %></s> <%= product.formatted_price %> </i> </p>
           <p> Category: <%= product.gender %> <%= product.category %> </p>
           <div id="picture">
             <img src="images/<%= product.image_location %>.jpg" alt="<%= product.name %> (<%= product.colour %>)">
@@ -29,12 +29,13 @@
           <p>
             <% if product.stockroom_count > 0 %>
               <form action="/buy" method="POST">
-                <button type="submit"  name="product_id" value="<%= product.id %>">BUY</button>
+                <button type="submit"  name="product_id" value="<%= product.id %>">↑ BUY ↑</button>
               </form>
             <% else %>
               <h2>Item out of stock</h2>
             <% end %>
           </p>
+          <br>
         <section id="product">
       </li>
     <% end %>
