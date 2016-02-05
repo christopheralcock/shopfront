@@ -10,7 +10,6 @@ class Shopfront < Sinatra::Base
 
   get '/' do
     @products = filter(cookies[:gender])
-    # @products = Product.all
     @basket_count = cookies[:basket] ? JSON.parse(URI.decode(cookies[:basket])).count : 0
     erb :'index'
   end
@@ -18,11 +17,6 @@ class Shopfront < Sinatra::Base
   post '/filter' do
     cookies[:gender] = params[:gender]
     redirect '/'
-  end
-
-  get '/cookies' do
-    cookies[:basket] = JSON.dump([])
-    "you've just cleared your cookies"
   end
 
   post '/buy' do

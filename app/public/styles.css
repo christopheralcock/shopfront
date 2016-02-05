@@ -1,13 +1,12 @@
 @media (max-width: 2000px) {
   header h1, footer a {
-    margin-left: 500px
+    margin-left: 400px
   }
-  
+
   #stay-at-top-store, #stay-at-top-basket, ul {
-    padding-left: 500px;
+    padding-left: 400px;
   }
 }
-
 
 @media (max-width: 900px) {
   header h1, footer a {
@@ -103,6 +102,7 @@ a {
   top: 60px;
   padding-top: 10px;
 }
+
 main {
   margin-top: 150px;
 }
