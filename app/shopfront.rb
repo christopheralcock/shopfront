@@ -39,26 +39,20 @@ class Shopfront < Sinatra::Base
     @basket_contents = parse_basket
     @products = Product.all
     @total_cost = sum_basket(@basket_contents)
-
-    wtf
-
-    original_cost = @total_cost
-    @total_cost = apply_vouchers(@total_cost, parse_basket, cookies[:voucher])
-    voucher_effective?(original_cost, @total_cost, cookies[:voucher])
-    cookies[:voucher] = ""
-
-
-
-    @total_cost = format_pounds(@total_cost)
+    handle_vouchers
     erb :'basket'
   end
 
 
-
-
   helpers do
 
-    def wtf
+    def handle_vouchers
+      total_cost = sum_basket(parse_basket)
+      original_cost = total_cost
+      @total_cost = apply_vouchers(total_cost, parse_basket, cookies[:voucher])
+      voucher_effective?(original_cost, @total_cost, cookies[:voucher])
+      @total_cost = format_pounds(@total_cost)
+      cookies[:voucher] = ""
     end
 
 
