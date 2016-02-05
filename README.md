@@ -6,9 +6,9 @@ To get this up and running, ensure you have Ruby and Postgres.
 
 in PSQL
 
-`\c database shopfront;`
+`create database shopfront;`
 
-`\c database shopfrontdevelopment;`
+`create database shopfrontdevelopment;`
 
 back in bash
 

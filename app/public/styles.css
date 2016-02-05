@@ -31,6 +31,9 @@ footer a {
 a:visited {
     color: #FBCAEF;
 }
+a {
+    color: #FBCAEF;
+}
 
 
 body {
