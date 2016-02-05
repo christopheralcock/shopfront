@@ -10,7 +10,7 @@ class Shopfront < Sinatra::Base
 
   get '/' do
     @products = filter(cookies[:gender])
-    @basket_count = cookies[:basket] ? JSON.parse(URI.decode(cookies[:basket])).count : 0
+    @basket_count = cookies[:basket] ? parse_basket.count : 0
     erb :'index'
   end
 
@@ -21,12 +21,12 @@ class Shopfront < Sinatra::Base
 
   post '/buy' do
     cookies[:basket] ||= JSON.dump([])
-    cookies[:basket] = add_to_basket(cookies[:basket], params[:product_id])
+    add_to_basket(params[:product_id])
     redirect '/'
   end
 
   post '/discard' do
-    cookies[:basket] = remove_from_basket(cookies[:basket], params[:product_id])
+    remove_from_basket(params[:product_id])
     redirect '/basket'
   end
 
@@ -36,18 +36,31 @@ class Shopfront < Sinatra::Base
   end
 
   get '/basket' do
-    @basket_contents = JSON.parse(URI.decode(cookies[:basket]))
+    @basket_contents = parse_basket
     @products = Product.all
     @total_cost = sum_basket(@basket_contents)
+
+    wtf
+
     original_cost = @total_cost
-    @total_cost = apply_vouchers(@total_cost, @basket_contents, cookies[:voucher])
+    @total_cost = apply_vouchers(@total_cost, parse_basket, cookies[:voucher])
     voucher_effective?(original_cost, @total_cost, cookies[:voucher])
-    @total_cost = format_pounds(@total_cost)
     cookies[:voucher] = ""
+
+
+
+    @total_cost = format_pounds(@total_cost)
     erb :'basket'
   end
 
+
+
+
   helpers do
+
+    def wtf
+    end
+
 
     def filter(letter)
       if letter == "W"
@@ -115,18 +128,18 @@ class Shopfront < Sinatra::Base
       "%.2f" % (total_cost.to_f / 100)
     end
 
-    def add_to_basket(cookie_basket, item)
+    def add_to_basket(item)
       change_stock(item, -1)
-      basket = JSON.parse(URI.decode(cookie_basket))
+      basket = parse_basket
       basket << item
-      cookie_basket = JSON.dump(basket)
+      cookies[:basket] = JSON.dump(basket)
     end
 
-    def remove_from_basket(cookie_basket, item)
+    def remove_from_basket(item)
       change_stock(item, 1)
-      basket = JSON.parse(URI.decode(cookie_basket))
+      basket = parse_basket
       basket.delete_at(basket.index(item) || basket.length)
-      JSON.dump(basket)
+      cookies[:basket] = JSON.dump(basket)
     end
 
     def change_stock(item, amount)
@@ -134,6 +147,10 @@ class Shopfront < Sinatra::Base
         product = Product.get(item)
         product.update(stockroom_count: product.stockroom_count + amount)
       end
+    end
+
+    def parse_basket
+      JSON.parse(URI.decode(cookies[:basket]))
     end
   end
 end
