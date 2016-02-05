@@ -1,19 +1,15 @@
 <main>
-  <section id="navigate-back">
-    <a href="/">Return to shop</a>
-  </section>
-  <section id="page-title">
-    Basket
-  </section>
-
 
   <section id="order">
-    <section id="payment">
+    <section id="stay-at-top-basket">
+      <section id="navigate-back">
+        <a href="/">Return to shop</a>
+      </section>
       <h2>
-        <%= @basket_contents.length %> Item(s) In Basket
+        <p> <%= @basket_contents.length %> Item(s) In Basket </p>
       </h2>
       <% if @total_cost != "0.00" %>
-        <p> Total: £<%= @total_cost %> </p>
+        <h3> Total: £<%= @total_cost %> </h3>
         <%= @error_message %>
         <% if @voucher_used %>
           <p> Voucher successfully applied.  Refresh page if you'd like to apply a different one </p>
@@ -27,7 +23,7 @@
       <% end %>
     </section>
 
-    <section id="order-details">
+    <section id="products">
       <ul id="basket-contents">
         <% @basket_contents.each do |product| %>
           <% if Product.get(product.to_i) %>

@@ -1,25 +1,19 @@
+<section id="stay-at-top-store">
+  <section id="basket-counter">
+    <%= @basket_count %> item(s) in basket - 
+    <% if @basket_count > 0 %>
+    <a href="/basket">View your basket</a>
+    <% end %>
+  </section>
 
-<section id="basket-counter">
-  <%= @basket_count %> item(s) in basket
-  <% if @basket_count > 0 %>
-  <a href="/basket">View your basket</a>
-  <% end %>
+  <section id="gender-filter">
+    <form action="/filter" method="POST">
+      <button type="submit" name="gender" value="W" id="left">WOMEN'S</button>
+      <button type="submit" name="gender" value="M" id="centre">MEN'S</button>
+      <button type="submit" name="gender" value="B" id="right">BOTH</button>
+    </form>
+  </section>
 </section>
-
-
-<section id="page-title">
-  Products
-</section>
-
-<section id="gender-filter">
-  <form action="/filter" method="POST">
-    Show me
-    <button type="submit" name="gender" value="W">WOMEN'S</button>
-    <button type="submit" name="gender" value="M">MEN'S</button>
-    <button type="submit" name="gender" value="B">BOTH</button>
-  </form>
-</sections>
-
 
 <section id="product-catalogue">
   <ul id='products'>
