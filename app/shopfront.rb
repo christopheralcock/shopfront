@@ -1,7 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/cookies'
-require 'JSON'
-require 'URI'
+require 'json'
+require 'uri'
 require_relative 'models/product'
 
 class Shopfront < Sinatra::Base
